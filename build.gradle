@@ -39,11 +39,6 @@ dependencies {
 	implementation 'com.nimbusds:nimbus-jose-jwt:9.28'
 }
 
-jar {
-	destinationDirectory = file("$buildDir")
-	archiveFileName = "usermicroservice.jar"
-}
-
 tasks.named('test') {
 	useJUnitPlatform()
 }

@@ -43,6 +43,7 @@ out/
 *.log
 
 # Package Files #
+target/
 *.jar
 *.war
 *.nar
