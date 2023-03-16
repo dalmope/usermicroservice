@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.ti.acelera'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = '17'
 buildDir = 'target'
 
@@ -36,7 +36,7 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	implementation 'com.nimbusds:nimbus-jose-jwt:9.28'
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.16.1'
 }
 
 tasks.named('test') {

@@ -1,13 +1,13 @@
 package co.dalmope.usermicroservice.application;
 
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.MailAlreadyExistsException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.RoleNotFoundException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.NoDataFoundException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.PersonAlreadyExistsException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.PersonNotFoundException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.RoleNotAllowedForCreationException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.UserAlreadyExistsException;
-import co.dalmope.usermicroservice.infraestructure.drivenAdapters.jpa.exception.UserNotFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.MailAlreadyExistsException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonAlreadyExistsException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonNotFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotAllowedForCreationException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserAlreadyExistsException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
