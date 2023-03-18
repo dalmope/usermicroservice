@@ -9,6 +9,6 @@ public interface IUserPersistencePort {
     void deleteUser(User user);
     List<User> getAllProviders(int page);
     User getProvider(Long id);
-    User getEmployee(Long id);
-    User getClient(Long id);
+    User getUser(Long id);
+    User getAdmin(Long id);
 }

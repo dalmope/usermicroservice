@@ -35,11 +35,11 @@ public class UserUseCase implements IUserServicePort {
 
     @Override
     public User getEmployee(Long id) {
-        return userPersistencePort.getEmployee(id);
+        return userPersistencePort.getUser(id);
     }
 
     @Override
     public User getClient(Long id) {
-        return userPersistencePort.getClient(id);
+        return userPersistencePort.getAdmin(id);
     }
 }

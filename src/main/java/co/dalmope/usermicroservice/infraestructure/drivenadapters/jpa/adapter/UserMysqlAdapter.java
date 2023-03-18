@@ -20,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static co.dalmope.usermicroservice.application.Constants.CLIENT_ROLE_ID;
-import static co.dalmope.usermicroservice.application.Constants.EMPLOYEE_ROLE_ID;
+import static co.dalmope.usermicroservice.application.Constants.ADMIN_ROLE_ID;
 import static co.dalmope.usermicroservice.application.Constants.MAX_PAGE_SIZE;
 import static co.dalmope.usermicroservice.application.Constants.PROVIDER_ROLE_ID;
+import static co.dalmope.usermicroservice.application.Constants.USER_ROLE_ID;
 
 @RequiredArgsConstructor
 @Transactional
@@ -34,15 +34,19 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     private final IUserEntityMapper userEntityMapper;
     @Override
     public void saveUser(User user) {
-        if (user.getRole().getId().equals(PROVIDER_ROLE_ID))
-        {
+        if (user.getRole().getId().equals(ADMIN_ROLE_ID)) {
             throw new RoleNotAllowedForCreationException();
         }
         if (userRepository.findByPersonEntityIdAndRoleEntityId(user.getPerson().getId(), user.getRole().getId()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
-        personRepository.findById(user.getPerson().getId()).orElseThrow(PersonNotFoundException::new);
-        roleRepository.findById(user.getRole().getId()).orElseThrow(RoleNotFoundException::new);
+        if (!personRepository.existsById(user.getPerson().getId())) {
+            throw new PersonNotFoundException();
+        }
+        if (!roleRepository.existsById(user.getRole().getId())) {
+            throw new RoleNotFoundException();
+        }
+
         userRepository.save(userEntityMapper.toEntity(user));
     }
 
@@ -73,14 +77,14 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public User getEmployee(Long id) {
-        UserEntity userEntity = userRepository.findByPersonEntityIdAndRoleEntityId(id, EMPLOYEE_ROLE_ID).orElseThrow(UserNotFoundException::new);
+    public User getUser(Long id) {
+        UserEntity userEntity = userRepository.findByPersonEntityIdAndRoleEntityId(id, USER_ROLE_ID).orElseThrow(UserNotFoundException::new);
         return userEntityMapper.toUser(userEntity);
     }
 
     @Override
-    public User getClient(Long id) {
-        UserEntity userEntity = userRepository.findByPersonEntityIdAndRoleEntityId(id, CLIENT_ROLE_ID).orElseThrow(UserNotFoundException::new);
+    public User getAdmin(Long id) {
+        UserEntity userEntity = userRepository.findByPersonEntityIdAndRoleEntityId(id, ADMIN_ROLE_ID).orElseThrow(UserNotFoundException::new);
         return userEntityMapper.toUser(userEntity);
     }
 }

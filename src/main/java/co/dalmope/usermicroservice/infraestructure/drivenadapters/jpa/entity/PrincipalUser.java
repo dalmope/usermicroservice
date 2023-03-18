@@ -6,14 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PrincipalUser implements UserDetails {
-    private String nombre;
-    private String nombreUsuario;
-    private String email;
-    private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final String nombre;
+    private final String nombreUsuario;
+    private final String email;
+    private final String password;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public PrincipalUser(String nombre, String nombreUsuario, String email, String password,
                          Collection<? extends GrantedAuthority> authorities) {
@@ -25,8 +24,9 @@ public class PrincipalUser implements UserDetails {
     }
 
     public static PrincipalUser build(PersonEntity usuario, List<RoleEntity> roles) {
-        List<GrantedAuthority> authorities = roles.stream()
-                .map(rol -> new SimpleGrantedAuthority(rol.getName())).collect(Collectors.toList());
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                .map(rol -> new SimpleGrantedAuthority(rol.getName()))
+                .toList();
         return new PrincipalUser(usuario.getName(), usuario.getDniNumber(), usuario.getMail(),
                 usuario.getPassword(), authorities);
     }

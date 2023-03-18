@@ -1,5 +1,8 @@
 package co.dalmope.usermicroservice.domain.model;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class Person {
     private Long id;
     private String name;
@@ -11,19 +14,6 @@ public class Person {
     private String dniNumber;
     private String idPersonType;
     private String password;
-
-    public Person(Long id, String name, String surname, String mail, String phone, String address, String idDniType, String dniNumber, String idPersonType, String password) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.mail = mail;
-        this.phone = phone;
-        this.address = address;
-        this.idDniType = idDniType;
-        this.dniNumber = dniNumber;
-        this.idPersonType = idPersonType;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;
