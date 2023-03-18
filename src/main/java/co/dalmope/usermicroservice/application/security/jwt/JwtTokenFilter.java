@@ -6,8 +6,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,16 +18,20 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@RequiredArgsConstructor
+@Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    JwtProvider jwtProvider;
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private final JwtProvider jwtProvider;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    private List<String> excludedPrefixes = Arrays.asList("/auth/**", "/swagger-ui/**", "/actuator/**", "/person/");
-    private AntPathMatcher pathMatcher = new AntPathMatcher();
+    private static final List<String> EXCLUDED_PREFIXES = Arrays.asList("/auth/**", "/swagger-ui/**", "/actuator/**", "/person/");
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
+    public JwtTokenFilter(JwtProvider jwtProvider, UserDetailsServiceImpl userDetailsService) {
+        this.jwtProvider = jwtProvider;
+        this.userDetailsService = userDetailsService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain)
             throws ServletException, IOException {
@@ -50,9 +52,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String currentRoute = request.getServletPath();
-        for (String prefix : excludedPrefixes) {
+        for (String prefix : EXCLUDED_PREFIXES) {
             if (pathMatcher.matchStart(prefix, currentRoute)) {
                 return true;
             }
@@ -61,10 +63,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private String getToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null) {
-            return header;
-        }
-        return null;
+        return request.getHeader("Authorization");
     }
 }

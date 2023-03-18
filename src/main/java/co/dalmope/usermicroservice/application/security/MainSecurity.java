@@ -19,12 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class MainSecurity {
-    JwtEntryPoint jwtEntryPoint;
-
-    @Bean
-    public JwtTokenFilter jwtTokenFilter() {
-        return new JwtTokenFilter();
-    }
+    private final JwtEntryPoint jwtEntryPoint;
+    private final JwtTokenFilter jwtTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -50,7 +46,7 @@ public class MainSecurity {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint);
-        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
