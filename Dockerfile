@@ -1,7 +1,9 @@
-FROM amazoncorretto:17-alpine-jdk
+FROM amazoncorretto:17-alpine-jdk AS build
 RUN apk add --no-cache gradle
 COPY . /app
 WORKDIR /app
 RUN gradle build
-WORKDIR /app/build/libs
-ENTRYPOINT ["java","-jar","/app/build/libs/app.jar"]
+
+FROM amazoncorretto:17-alpine-jdk
+COPY --from=build /app/target/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
