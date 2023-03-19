@@ -5,7 +5,7 @@ spring:
   datasource:
     url: ${DATABASE_URL:jdbc:mysql://localhost/personas_users}
     username: ${DATABASE_USERNAME:root}
-    password: ${DATABASE_PASSWORD:root}
+    password: ${DATABASE_PASSWORD:}
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,8 +18,3 @@ management:
     web:
       exposure:
         include: "*"
-
-logging:
-  level:
-    org:
-      springframework=DEBUG:
