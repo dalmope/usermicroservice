@@ -1,6 +1,7 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
 import co.dalmope.usermicroservice.application.security.jwt.JwtProvider;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.mail.EmailService;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.LoginUsuario;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.response.JwtDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
@@ -43,6 +46,12 @@ public class AuthController {
         String jwt = jwtProvider.generateToken(authentication);
         JwtDto jwtDTO = new JwtDto(jwt);
         return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/message")
+    public ResponseEntity<String> message() {
+        emailService.sendEmail("eukadaju@gmail.com", "Registro Exitoso", "Hola mundo");
+        return new ResponseEntity<>("Hola mundo", HttpStatus.OK);
     }
 
     @PostMapping("/refresh")
