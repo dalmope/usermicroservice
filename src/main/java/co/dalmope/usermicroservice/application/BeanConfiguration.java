@@ -18,9 +18,11 @@ import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IUs
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IRoleRepository;
 import co.dalmope.usermicroservice.domain.usecase.PersonUseCase;
 import co.dalmope.usermicroservice.domain.usecase.UserUseCase;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.mail.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -33,6 +35,7 @@ public class BeanConfiguration {
     private final IPersonEntityMapper personEntityMapper;
     private final IUserEntityMapper userEntityMapper;
     private final PasswordEncoder passwordEncoder;
+    private final JavaMailSender javaMailSender;
     @Bean
     public IRoleServicePort roleServicePort() {
         return new RoleUseCase(rolePersistencePort());
@@ -56,5 +59,9 @@ public class BeanConfiguration {
     @Bean
     public IUserPersistencePort userPersistencePort() {
         return new UserMysqlAdapter(userRepository, personRepository, roleRepository, userEntityMapper);
+    }
+    @Bean
+    public EmailService emailService() {
+        return new EmailService(javaMailSender);
     }
 }
