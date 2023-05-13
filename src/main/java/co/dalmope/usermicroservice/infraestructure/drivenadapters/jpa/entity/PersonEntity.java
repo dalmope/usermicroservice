@@ -29,7 +29,6 @@ public class PersonEntity {
     private String idDniType;
     @Column(unique = true, nullable = false, length = 20)
     private String dniNumber;
-    private String idPersonType;
     private String password;
     private String tokenPassword;
 }

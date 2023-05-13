@@ -19,7 +19,6 @@ public interface IPersonResponseMapper {
     @Mapping(source = "person.address", target = "address")
     @Mapping(source = "person.idDniType", target = "idDniType")
     @Mapping(source = "person.dniNumber", target = "dniNumber")
-    @Mapping(source = "person.idPersonType", target = "idPersonType")
     PersonResponse userToPersonResponse(User user);
     List<PersonResponse> userListToPersonResponseList(List<User> userList);
 }

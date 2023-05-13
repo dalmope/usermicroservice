@@ -13,5 +13,4 @@ public class PersonResponse {
     private String address;
     private String idDniType;
     private String dniNumber;
-    private String idPersonType;
 }
