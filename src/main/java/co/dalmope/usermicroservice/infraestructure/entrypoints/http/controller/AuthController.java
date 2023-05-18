@@ -16,12 +16,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.text.ParseException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -48,9 +51,10 @@ public class AuthController {
         return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/message")
-    public ResponseEntity<String> message() {
-        emailService.sendEmail("eukadaju@gmail.com", "Registro Exitoso", "Hola mundo");
+    @PostMapping("/message")
+    public ResponseEntity<String> message(@RequestBody Map<String, String> request) {
+        String correo = request.get("correo");
+        emailService.sendEmail(correo, "Registro Exitoso", "Hola mundo");
         return new ResponseEntity<>("Hola mundo", HttpStatus.OK);
     }
 
