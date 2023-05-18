@@ -22,11 +22,11 @@ public class EmailService {
     private String from;
 
     public void sendEmail(String to, String subject, String content) {
-
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
-            String htmlContent = new String(Files.readAllBytes(Paths.get("src/main/java/co/dalmope/usermicroservice/infraestructure/drivenadapters/mail/templates/Bienvenido.html")));
+            String htmlContent = new String(Files.readAllBytes(Paths.get("src/main/resources/templates/Bienvenido.html")));
+            htmlContent = htmlContent.replace("[[name]]", "David");
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
             helper.setFrom(from);
@@ -38,7 +38,5 @@ public class EmailService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
-
 }
