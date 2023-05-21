@@ -40,6 +40,7 @@ public class MainSecurity {
                 authorizeHttpRequests
                     .requestMatchers("/auth/login", "/auth/message", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
                     .requestMatchers("/user/**").hasRole("ADMIN")
+                    .requestMatchers("/health/**").permitAll()
                     .anyRequest().authenticated()
                 )
                 .formLogin().disable()
