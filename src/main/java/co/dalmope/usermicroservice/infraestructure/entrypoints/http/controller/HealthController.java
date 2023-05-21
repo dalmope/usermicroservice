@@ -1,6 +1,5 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
-import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/health")
-@Log4j
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class HealthController {
