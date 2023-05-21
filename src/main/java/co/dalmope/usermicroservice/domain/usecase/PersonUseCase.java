@@ -15,4 +15,9 @@ public class PersonUseCase implements IPersonServicePort {
     public void savePerson(Person person) {
         personPersistencePort.savePerson(person);
     }
+
+    @Override
+    public Person getPerson(Long id) {
+        return personPersistencePort.getPerson(id);
+    }
 }
