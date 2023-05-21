@@ -7,8 +7,6 @@ spring:
     url: ${DATABASE_URL:jdbc:mysql://localhost/auth}
     username: ${DATABASE_USERNAME:root}
     password: ${DATABASE_PASSWORD:}
-    hikari:
-      max-lifetime: 600000
   jpa:
     hibernate:
       ddl-auto: update
