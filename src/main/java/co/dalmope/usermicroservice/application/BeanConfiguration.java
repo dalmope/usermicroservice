@@ -1,8 +1,20 @@
 package co.dalmope.usermicroservice.application;
 
+import co.dalmope.usermicroservice.domain.api.IConsultorioServicePort;
+import co.dalmope.usermicroservice.domain.api.IEspecialidadServicePort;
+import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
+import co.dalmope.usermicroservice.domain.spi.IEspecialidadPersistencePort;
+import co.dalmope.usermicroservice.domain.usecase.ConsultorioUseCase;
+import co.dalmope.usermicroservice.domain.usecase.EspecialidadUseCase;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.ConsultorioAdapter;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.EspecialidadAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.PersonMysqlAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.RoleMysqlAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.UserMysqlAdapter;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IConsultorioMapper;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IEspecialidadMapper;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IConsultorioRepository;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IEspecialidadRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IUserRepository;
 import co.dalmope.usermicroservice.domain.api.IPersonServicePort;
@@ -36,6 +48,11 @@ public class BeanConfiguration {
     private final IUserEntityMapper userEntityMapper;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
+    private final IConsultorioRepository consultorioRepository;
+    private final IConsultorioMapper consultorioMapper;
+    private final IEspecialidadRepository especialidadRepository;
+    private final IEspecialidadMapper especialidadMapper;
+
     @Bean
     public IRoleServicePort roleServicePort() {
         return new RoleUseCase(rolePersistencePort());
@@ -52,6 +69,12 @@ public class BeanConfiguration {
     public IPersonPersistencePort personPersistencePort() {
         return new PersonMysqlAdapter(personRepository, personEntityMapper, passwordEncoder, userRepository, roleRepository);
     }
+    @Bean IConsultorioPersistencePort consultorioPersistencePort() {
+        return new ConsultorioAdapter(consultorioRepository, consultorioMapper);
+    }
+    @Bean IEspecialidadPersistencePort especialidadPersistencePort() {
+        return new EspecialidadAdapter(especialidadRepository, especialidadMapper);
+    }
     @Bean
     public IUserServicePort userServicePort() {
         return new UserUseCase(userPersistencePort());
@@ -59,6 +82,14 @@ public class BeanConfiguration {
     @Bean
     public IUserPersistencePort userPersistencePort() {
         return new UserMysqlAdapter(userRepository, personRepository, roleRepository, userEntityMapper);
+    }
+    @Bean
+    public IConsultorioServicePort consultorioServicePort() {
+        return new ConsultorioUseCase(consultorioPersistencePort());
+    }
+    @Bean
+    IEspecialidadServicePort especialidadServicePort() {
+        return new EspecialidadUseCase(especialidadPersistencePort());
     }
     @Bean
     public EmailService emailService() {

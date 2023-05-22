@@ -5,6 +5,8 @@ import co.dalmope.usermicroservice.domain.model.Especialidad;
 import co.dalmope.usermicroservice.domain.model.Estado;
 import co.dalmope.usermicroservice.domain.spi.IEspecialidadPersistencePort;
 
+import java.util.List;
+
 public class EspecialidadUseCase implements IEspecialidadServicePort {
 
     private final IEspecialidadPersistencePort especialidadRepository;
@@ -15,6 +17,8 @@ public class EspecialidadUseCase implements IEspecialidadServicePort {
 
     @Override
     public void create(Especialidad especialidad) {
+        especialidad.setId(null);
+        especialidad.setEstado(Estado.ACTIVO);
         especialidadRepository.saveEspecialidad(especialidad);
     }
 
@@ -28,6 +32,16 @@ public class EspecialidadUseCase implements IEspecialidadServicePort {
         Especialidad especialidad = especialidadRepository.getEspecialidad(id);
         especialidad.setEstado(Estado.INACTIVO);
         especialidadRepository.saveEspecialidad(especialidad);
+    }
+
+    @Override
+    public List<Especialidad> getAll() {
+        return especialidadRepository.getEspecialidades();
+    }
+
+    @Override
+    public List<Especialidad> getAllActivos() {
+        return especialidadRepository.getEspecialidadesActivas();
     }
 
 }

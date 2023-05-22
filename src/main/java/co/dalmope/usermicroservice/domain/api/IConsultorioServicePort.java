@@ -1,7 +1,7 @@
 package co.dalmope.usermicroservice.domain.api;
 
 import co.dalmope.usermicroservice.domain.model.Consultorio;
-import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
+import java.util.List;
 
 public interface IConsultorioServicePort {
 
@@ -10,4 +10,8 @@ public interface IConsultorioServicePort {
     void update(Consultorio consultorio);
 
     void desactive(Long id);
+
+    List<Consultorio> getAll();
+
+    List<Consultorio> getAllActivos();
 }

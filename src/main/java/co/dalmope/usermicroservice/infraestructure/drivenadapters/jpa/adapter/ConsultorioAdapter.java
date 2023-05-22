@@ -43,4 +43,8 @@ public class ConsultorioAdapter implements IConsultorioPersistencePort {
     public Consultorio getConsultorio(Long id) {
         return consultorioMapper.toDomain(consultorioRepository.findById(id).orElseThrow(UserNotFoundException::new));
     }
+    @Override
+    public List<Consultorio> getAllConsultoriosActivos() {
+        return consultorioMapper.toConsultorioList(consultorioRepository.findAllByEstado(Estado.ACTIVO));
+    }
 }

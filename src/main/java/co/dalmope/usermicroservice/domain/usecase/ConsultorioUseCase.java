@@ -5,6 +5,8 @@ import co.dalmope.usermicroservice.domain.model.Consultorio;
 import co.dalmope.usermicroservice.domain.model.Estado;
 import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
 
+import java.util.List;
+
 public class ConsultorioUseCase implements IConsultorioServicePort {
 
     private final IConsultorioPersistencePort consultorioRepository;
@@ -15,6 +17,8 @@ public class ConsultorioUseCase implements IConsultorioServicePort {
 
     @Override
     public void create(Consultorio consultorio) {
+        consultorio.setId(null);
+        consultorio.setEstado(Estado.ACTIVO);
         consultorioRepository.saveConsultorio(consultorio);
     }
 
@@ -28,5 +32,15 @@ public class ConsultorioUseCase implements IConsultorioServicePort {
         Consultorio consultorio = consultorioRepository.getConsultorio(id);
         consultorio.setEstado(Estado.INACTIVO);
         consultorioRepository.saveConsultorio(consultorio);
+    }
+
+    @Override
+    public List<Consultorio> getAll() {
+        return consultorioRepository.getAllConsultorios();
+    }
+
+    @Override
+    public List<Consultorio> getAllActivos() {
+        return consultorioRepository.getAllConsultoriosActivos();
     }
 }

@@ -1,7 +1,7 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
-import co.dalmope.usermicroservice.domain.api.IEspecialidadServicePort;
-import co.dalmope.usermicroservice.domain.model.Especialidad;
+import co.dalmope.usermicroservice.domain.api.IConsultorioServicePort;
+import co.dalmope.usermicroservice.domain.model.Consultorio;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.UtilRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,37 +19,36 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/especialidad")
+@RequestMapping("/consultorio")
 @RequiredArgsConstructor
 @CrossOrigin("*")
-public class EspecialidadController {
-
-    private final IEspecialidadServicePort service;
+public class ConsultorioController {
+    private final IConsultorioServicePort service;
 
     @GetMapping()
-    public ResponseEntity<List<Especialidad>> getEspecialidades() {
-       return new ResponseEntity<>(service.getAllActivos(), HttpStatus.OK);
+    public ResponseEntity<List<Consultorio>> getConsultorios() {
+        return new ResponseEntity<>(service.getAllActivos(), HttpStatus.OK);
     }
 
     @GetMapping({"/all"})
-    public ResponseEntity<List<Especialidad>> getAllEspecialidades() {
-       return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<Consultorio>> getAllConsultorios() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<String> saveEspecialidad(@RequestBody Especialidad especialidad) {
-        service.create(especialidad);
+    public ResponseEntity<String> saveConsultorio(@RequestBody Consultorio consultorio) {
+        service.create(consultorio);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @PutMapping({"/{id}"})
-    public ResponseEntity<String> updateEspecialidad(@PathVariable Long id, @RequestBody Especialidad especialidad) {
-        service.update(especialidad);
+    public ResponseEntity<String> updateConsultorio(@PathVariable Long id, @RequestBody Consultorio consultorio) {
+        service.update(consultorio);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<String> deleteEspecialidad(@PathVariable Long id) {
+    public ResponseEntity<String> deleteConsultorio(@PathVariable Long id) {
         service.desactive(id);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }

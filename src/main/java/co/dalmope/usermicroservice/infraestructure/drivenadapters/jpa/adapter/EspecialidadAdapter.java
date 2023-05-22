@@ -11,8 +11,15 @@ import java.util.List;
 
 public class EspecialidadAdapter implements IEspecialidadPersistencePort {
 
-    IEspecialidadRepository especialidadRepository;
-    IEspecialidadMapper especialidadMapper;
+    private final IEspecialidadRepository especialidadRepository;
+    private final IEspecialidadMapper especialidadMapper;
+
+    public EspecialidadAdapter(IEspecialidadRepository especialidadRepository, IEspecialidadMapper especialidadMapper) {
+        this.especialidadRepository = especialidadRepository;
+        this.especialidadMapper = especialidadMapper;
+    }
+
+
     @Override
     public void saveEspecialidad(Especialidad especialidad) {
         especialidadRepository.save( especialidadMapper.toEntity(especialidad));
@@ -36,5 +43,10 @@ public class EspecialidadAdapter implements IEspecialidadPersistencePort {
     @Override
     public List<Especialidad> getEspecialidades() {
         return especialidadMapper.toEspecialidadList(especialidadRepository.findAll());
+    }
+
+    @Override
+    public List<Especialidad> getEspecialidadesActivas() {
+        return especialidadMapper.toEspecialidadList(especialidadRepository.findAllByEstado(Estado.ACTIVO));
     }
 }

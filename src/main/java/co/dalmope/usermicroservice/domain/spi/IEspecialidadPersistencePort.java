@@ -10,6 +10,6 @@ public interface IEspecialidadPersistencePort {
     List<Especialidad> getAllEspecialidades();
     boolean existsAndIsActive(Long id);
     Especialidad getEspecialidad(Long id);
-
     List<Especialidad> getEspecialidades();
+    List<Especialidad> getEspecialidadesActivas();
 }
