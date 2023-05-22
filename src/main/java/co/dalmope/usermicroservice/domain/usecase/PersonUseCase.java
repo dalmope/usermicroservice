@@ -20,4 +20,9 @@ public class PersonUseCase implements IPersonServicePort {
     public Person getPerson(Long id) {
         return personPersistencePort.getPerson(id);
     }
+
+    @Override
+    public boolean existsPerson(Long id) {
+        return personPersistencePort.getPerson(id) != null;
+    }
 }
