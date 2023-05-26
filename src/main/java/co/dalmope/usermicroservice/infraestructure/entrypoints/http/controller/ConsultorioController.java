@@ -2,7 +2,6 @@ package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
 import co.dalmope.usermicroservice.domain.api.IConsultorioServicePort;
 import co.dalmope.usermicroservice.domain.model.Consultorio;
-import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.UtilRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
