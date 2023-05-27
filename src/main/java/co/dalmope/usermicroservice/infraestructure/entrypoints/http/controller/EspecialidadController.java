@@ -19,9 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_CREATED_MESSAGE;
-import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_DELETE_MESSAGE;
-import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_UPDATE_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.ESPECIALIDAD_CREATED_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.ESPECIALIDAD_DELETE_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.ESPECIALIDAD_UPDATE_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
 @RestController
@@ -46,7 +46,7 @@ public class EspecialidadController {
     public ResponseEntity<Map<String,String>> saveEspecialidad(@RequestBody Especialidad especialidad) {
         service.create(especialidad);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_CREATED_MESSAGE));
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ESPECIALIDAD_CREATED_MESSAGE));
     }
 
     @PutMapping({"/{id}"})
@@ -54,13 +54,13 @@ public class EspecialidadController {
         especialidad.setId(id);
         service.update(especialidad);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_UPDATE_MESSAGE));
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ESPECIALIDAD_UPDATE_MESSAGE));
     }
 
     @DeleteMapping({"/{id}"})
     public ResponseEntity<Map<String,String>> deleteEspecialidad(@PathVariable Long id) {
         service.desactive(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_DELETE_MESSAGE));
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ESPECIALIDAD_DELETE_MESSAGE));
     }
 }

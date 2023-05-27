@@ -15,7 +15,10 @@ public class Constants {
     public static final String CONSULTORIO_CREATED_MESSAGE = "Consultorio creado exitosamente";
     public static final String CONSULTORIO_UPDATE_MESSAGE = "Consultorio actualizado exitosamente";
     public static final String CONSULTORIO_DELETE_MESSAGE = "Consultorio eliminado exitosamente";
-    public static final String HEALTH_MESSAGE = "User microservice is up and running";
+    public static final String ESPECIALIDAD_CREATED_MESSAGE = "Especialidad creada exitosamente";
+    public static final String ESPECIALIDAD_UPDATE_MESSAGE = "Especialidad actualizada exitosamente";
+    public static final String ESPECIALIDAD_DELETE_MESSAGE = "Especialidad eliminada exitosamente";
+    public static final String HEALTH_MESSAGE = "Microservice is up and running";
     public static final String USER_CREATED_MESSAGE = "User created successfully";
     public static final String USER_DELETED_MESSAGE = "User deleted successfully";
     public static final String RESPONSE_ERROR_MESSAGE_KEY = "Error";
@@ -28,7 +31,7 @@ public class Constants {
     public static final String ROLE_NOT_ALLOWED_MESSAGE = "No permission granted to create users with this role";
     public static final String USER_ALREADY_EXISTS_MESSAGE = "A user already exists with the role provided";
     public static final String USER_NOT_FOUND_MESSAGE = "No user found with the role provided";
-    public static final String SWAGGER_TITLE_MESSAGE = "User API Acelera TI";
+    public static final String SWAGGER_TITLE_MESSAGE = "User API";
     public static final String SWAGGER_DESCRIPTION_MESSAGE = "User microservice";
     public static final String SWAGGER_VERSION_MESSAGE = "1.0.0";
     public static final String SWAGGER_LICENSE_NAME_MESSAGE = "Apache 2.0";
