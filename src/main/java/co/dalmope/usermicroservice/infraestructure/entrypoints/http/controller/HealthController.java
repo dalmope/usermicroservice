@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import static co.dalmope.usermicroservice.application.Constants.PERSON_CREATED_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.HEALTH_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
 @RestController
@@ -30,7 +30,7 @@ public class HealthController {
         logger.info("Health check");
         personServicePort.getPerson(1L);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, PERSON_CREATED_MESSAGE));
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, HEALTH_MESSAGE));
     }
     
 }
