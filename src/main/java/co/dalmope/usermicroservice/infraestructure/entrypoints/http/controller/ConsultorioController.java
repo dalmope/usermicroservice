@@ -19,6 +19,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_CREATED_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_DELETE_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_UPDATE_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.HEALTH_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
@@ -43,19 +46,21 @@ public class ConsultorioController {
     public ResponseEntity<Map<String,String>> saveConsultorio(@RequestBody Consultorio consultorio) {
         service.create(consultorio);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, HEALTH_MESSAGE));
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_CREATED_MESSAGE));
     }
 
     @PutMapping({"/{id}"})
-    public ResponseEntity<String> updateConsultorio(@PathVariable Long id, @RequestBody Consultorio consultorio) {
+    public ResponseEntity<Map<String,String>> updateConsultorio(@PathVariable Long id, @RequestBody Consultorio consultorio) {
         consultorio.setId(id);
         service.update(consultorio);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_UPDATE_MESSAGE));
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<String> deleteConsultorio(@PathVariable Long id) {
+    public ResponseEntity<Map<String,String>> deleteConsultorio(@PathVariable Long id) {
         service.desactive(id);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_DELETE_MESSAGE));
     }
 }

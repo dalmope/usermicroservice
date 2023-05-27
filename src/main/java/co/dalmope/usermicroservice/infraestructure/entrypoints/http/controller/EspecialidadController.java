@@ -53,14 +53,14 @@ public class EspecialidadController {
     public ResponseEntity<Map<String,String>> updateEspecialidad(@PathVariable Long id, @RequestBody Especialidad especialidad) {
         especialidad.setId(id);
         service.update(especialidad);
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_UPDATE_MESSAGE));
     }
 
     @DeleteMapping({"/{id}"})
     public ResponseEntity<Map<String,String>> deleteEspecialidad(@PathVariable Long id) {
         service.desactive(id);
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CONSULTORIO_DELETE_MESSAGE));
     }
 }
