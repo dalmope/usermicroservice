@@ -1,7 +1,6 @@
 package co.dalmope.usermicroservice.domain.spi;
 
 import co.dalmope.usermicroservice.domain.model.Especialidad;
-import co.dalmope.usermicroservice.domain.model.Estado;
 
 import java.util.List;
 

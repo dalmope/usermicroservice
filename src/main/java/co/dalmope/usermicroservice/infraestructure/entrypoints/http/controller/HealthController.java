@@ -29,7 +29,7 @@ public class HealthController {
     public ResponseEntity<Map<String,String>> health() {
         logger.info("Health check");
         personServicePort.getPerson(1L);
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, PERSON_CREATED_MESSAGE));
     }
     
