@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.logging.Logger;
+
+import static co.dalmope.usermicroservice.application.Constants.PERSON_CREATED_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
 @RestController
 @RequestMapping("/health")
@@ -21,10 +26,11 @@ public class HealthController {
     private final Logger logger = Logger.getLogger(HealthController.class.getName());
     private final IPersonServicePort personServicePort;
     @GetMapping()
-    public ResponseEntity<String> health() {
+    public ResponseEntity<Map<String,String>> health() {
         logger.info("Health check");
         personServicePort.getPerson(1L);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, PERSON_CREATED_MESSAGE));
     }
     
 }

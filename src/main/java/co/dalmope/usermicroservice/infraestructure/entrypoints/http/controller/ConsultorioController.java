@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import static co.dalmope.usermicroservice.application.Constants.HEALTH_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
 @RestController
 @RequestMapping("/consultorio")
@@ -35,13 +40,15 @@ public class ConsultorioController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> saveConsultorio(@RequestBody Consultorio consultorio) {
+    public ResponseEntity<Map<String,String>> saveConsultorio(@RequestBody Consultorio consultorio) {
         service.create(consultorio);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, HEALTH_MESSAGE));
     }
 
     @PutMapping({"/{id}"})
     public ResponseEntity<String> updateConsultorio(@PathVariable Long id, @RequestBody Consultorio consultorio) {
+        consultorio.setId(id);
         service.update(consultorio);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
