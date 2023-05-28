@@ -52,7 +52,7 @@ public class RoleRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> createRole(RoleResponse roleResponse) {
+    public ResponseEntity<Map<String, String>> createRole(@RequestBody RoleResponse roleResponse) {
         roleServicePort.create(roleResponseMapper.toDomain(roleResponse));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ROLE_CREATED_MESSAGE));
