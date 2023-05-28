@@ -25,4 +25,31 @@ public class RoleUseCase implements IRoleServicePort {
         roles.removeIf(role -> role.getId() <= 10);
         return roles;
     }
+
+    @Override
+    public void create(Role role) {
+        if (role.getId() != null) {
+            throw new IllegalArgumentException("Role id must be null");
+        }
+        rolePersistencePort.saveRole(role);
+    }
+
+    @Override
+    public void update(Role role) {
+        if (role.getId() == null) {
+            throw new IllegalArgumentException("Role id must not be null");
+        }
+        rolePersistencePort.saveRole(role);
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Role id must not be null");
+        }
+        if (id <= 10) {
+            throw new IllegalArgumentException("Role id must be greater than 10");
+        }
+        rolePersistencePort.deleteRole(id);
+    }
 }

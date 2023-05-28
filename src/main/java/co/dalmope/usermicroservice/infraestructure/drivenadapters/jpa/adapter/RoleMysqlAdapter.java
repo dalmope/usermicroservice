@@ -22,4 +22,14 @@ public class RoleMysqlAdapter implements IRolePersistencePort {
         }
         return roleEntityMapper.toRoleList(roleEntityList);
     }
+
+    @Override
+    public void saveRole(Role role) {
+        roleRepository.save(roleEntityMapper.toRoleEntity(role));
+    }
+
+    @Override
+    public void deleteRole(Long id) {
+        roleRepository.deleteById(id);
+    }
 }
