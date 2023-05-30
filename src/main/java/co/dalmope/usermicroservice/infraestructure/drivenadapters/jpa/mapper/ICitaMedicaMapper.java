@@ -10,5 +10,5 @@ import java.util.List;
 public interface ICitaMedicaMapper {
     CitaMedica toDomain(CitaMedicaEntity citaMedicaEntity);
     CitaMedicaEntity toEntity(CitaMedica citaMedica);
-    List<CitaMedica> toCitaMedicaList(List<CitaMedicaEntity> citaMedicaEntityList);
+    List<CitaMedica> toDomainList(List<CitaMedicaEntity> citaMedicaEntityList);
 }

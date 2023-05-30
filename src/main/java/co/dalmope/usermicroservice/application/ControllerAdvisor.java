@@ -1,10 +1,11 @@
 package co.dalmope.usermicroservice.application;
 
+import co.dalmope.usermicroservice.domain.exceptions.EspecialidadNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.MailAlreadyExistsException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonAlreadyExistsException;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonNotFoundException;
+import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotAllowedForCreationException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserAlreadyExistsException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserNotFoundException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Collections;
 import java.util.Map;
 
+import static co.dalmope.usermicroservice.application.Constants.ESPECIALIDAD_NOT_FOUND_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.MAIL_ALREADY_EXISTS_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.NO_DATA_FOUND_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.PERSON_ALREADY_EXISTS_MESSAGE;
@@ -30,6 +32,13 @@ import static co.dalmope.usermicroservice.application.Constants.USER_NOT_FOUND_M
 
 @ControllerAdvice
 public class ControllerAdvisor {
+
+    @ExceptionHandler(EspecialidadNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEspecialidadNotFoundException(
+            EspecialidadNotFoundException especialidadNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, ESPECIALIDAD_NOT_FOUND_MESSAGE));
+    }
     @ExceptionHandler(NoDataFoundException.class)
     public ResponseEntity<Map<String, String>> handleNoDataFoundException(NoDataFoundException noDataFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)

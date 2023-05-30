@@ -4,7 +4,7 @@ import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.Use
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
 import co.dalmope.usermicroservice.domain.model.User;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonNotFoundException;
+import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotAllowedForCreationException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserAlreadyExistsException;

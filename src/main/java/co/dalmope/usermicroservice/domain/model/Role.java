@@ -4,11 +4,13 @@ public class Role {
     private Long id;
     private String name;
     private String description;
+    private Estado estado;
 
     public Role(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.estado = Estado.ACTIVO;
     }
 
     public Long getId() {
@@ -33,5 +35,13 @@ public class Role {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 }

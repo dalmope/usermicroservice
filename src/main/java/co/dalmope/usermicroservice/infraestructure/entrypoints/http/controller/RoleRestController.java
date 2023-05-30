@@ -74,7 +74,7 @@ public class RoleRestController {
     public ResponseEntity<Map<String, String>> deleteMed(@PathVariable("id") Long id) {
         roleServicePort.delete(id);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ROLE_CREATED_MESSAGE));
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ROLE_UPDATED_MESSAGE));
     }
 
 }

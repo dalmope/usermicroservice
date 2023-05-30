@@ -1,8 +1,11 @@
 package co.dalmope.usermicroservice.domain.usecase;
 
 import co.dalmope.usermicroservice.domain.api.IRoleServicePort;
+import co.dalmope.usermicroservice.domain.model.Estado;
 import co.dalmope.usermicroservice.domain.model.Role;
 import co.dalmope.usermicroservice.domain.spi.IRolePersistencePort;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotAllowedForCreationException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotFoundException;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class RoleUseCase implements IRoleServicePort {
 
     @Override
     public List<Role> getAllEspecialidades() {
-        List<Role> roles = rolePersistencePort.getAllRoles();
+        List<Role> roles = rolePersistencePort.getAllRolesByEstado(Estado.ACTIVO);
         roles.removeIf(role -> role.getId() <= 10);
         return roles;
     }
@@ -29,7 +32,7 @@ public class RoleUseCase implements IRoleServicePort {
     @Override
     public void create(Role role) {
         if (role.getId() != null) {
-            throw new IllegalArgumentException("Role id must be null");
+            throw  new RoleNotAllowedForCreationException();
         }
         rolePersistencePort.saveRole(role);
     }
@@ -37,7 +40,7 @@ public class RoleUseCase implements IRoleServicePort {
     @Override
     public void update(Role role) {
         if (role.getId() == null) {
-            throw new IllegalArgumentException("Role id must not be null");
+            throw new RoleNotFoundException();
         }
         rolePersistencePort.saveRole(role);
     }
@@ -45,10 +48,10 @@ public class RoleUseCase implements IRoleServicePort {
     @Override
     public void delete(Long id) {
         if (id == null) {
-            throw new IllegalArgumentException("Role id must not be null");
+            throw new RoleNotFoundException();
         }
         if (id <= 10) {
-            throw new IllegalArgumentException("Role id must be greater than 10");
+            throw new RoleNotAllowedForCreationException();
         }
         rolePersistencePort.deleteRole(id);
     }

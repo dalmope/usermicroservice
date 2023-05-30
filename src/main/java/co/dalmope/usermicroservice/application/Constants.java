@@ -18,10 +18,11 @@ public class Constants {
     public static final String ESPECIALIDAD_CREATED_MESSAGE = "Especialidad creada exitosamente";
     public static final String ESPECIALIDAD_UPDATE_MESSAGE = "Especialidad actualizada exitosamente";
     public static final String ESPECIALIDAD_DELETE_MESSAGE = "Especialidad eliminada exitosamente";
+    public static final String ESPECIALIDAD_NOT_FOUND_MESSAGE = "Especialidad no encontrada";
     public static final String HEALTH_MESSAGE = "Microservice is up and running";
     public static final String USER_CREATED_MESSAGE = "User created successfully";
     public static final String USER_DELETED_MESSAGE = "User deleted successfully";
-    public static final String RESPONSE_ERROR_MESSAGE_KEY = "Error";
+    public static final String RESPONSE_ERROR_MESSAGE_KEY = "error";
     public static final String NO_DATA_FOUND_MESSAGE = "No data found for the requested petition";
     public static final String PERSON_ALREADY_EXISTS_MESSAGE = "A person already exists with the DNI number provided";
     public static final String MAIL_ALREADY_EXISTS_MESSAGE = "A person with that mail already exists";

@@ -6,7 +6,7 @@ import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.Per
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.UserEntity;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.MailAlreadyExistsException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonAlreadyExistsException;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.PersonNotFoundException;
+import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IPersonEntityMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IRoleRepository;
@@ -42,5 +42,10 @@ public class PersonMysqlAdapter implements IPersonPersistencePort {
     @Override
     public Person getPerson(Long id) {
         return personEntityMapper.toDomain(personRepository.findById(id).orElseThrow(PersonNotFoundException::new));
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return !personRepository.existsById(id);
     }
 }

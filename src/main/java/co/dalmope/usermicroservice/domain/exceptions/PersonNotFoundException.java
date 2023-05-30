@@ -1,4 +1,4 @@
-package co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception;
+package co.dalmope.usermicroservice.domain.exceptions;
 
 public class PersonNotFoundException extends RuntimeException {
     public PersonNotFoundException() {

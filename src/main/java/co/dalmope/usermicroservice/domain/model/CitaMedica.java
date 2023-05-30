@@ -14,11 +14,11 @@ import java.util.Date;
 @Setter
 public class CitaMedica {
     private Long id;
-    private Date fechaInicio;
+    private Date fechaHora;
     private String motivo;
     private EstadoCita estado;
-    private Long idPaciente;
-    private Long idMedico;
-    private Long idEspecialidad;
-    private Long idConsultorio;
+    private Role especialidad;
+    private Consultorio consultorio;
+    private Person paciente;
+    private Person medico;
 }

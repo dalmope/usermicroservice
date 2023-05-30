@@ -1,18 +1,24 @@
 package co.dalmope.usermicroservice.application;
 
+import co.dalmope.usermicroservice.domain.api.ICitaMedicaServicePort;
 import co.dalmope.usermicroservice.domain.api.IConsultorioServicePort;
 import co.dalmope.usermicroservice.domain.api.IEspecialidadServicePort;
+import co.dalmope.usermicroservice.domain.spi.ICitaMedicaPersistencePort;
 import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
 import co.dalmope.usermicroservice.domain.spi.IEspecialidadPersistencePort;
+import co.dalmope.usermicroservice.domain.usecase.CitaMedicaUseCase;
 import co.dalmope.usermicroservice.domain.usecase.ConsultorioUseCase;
 import co.dalmope.usermicroservice.domain.usecase.EspecialidadUseCase;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.CitaMedicaAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.ConsultorioAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.EspecialidadAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.PersonMysqlAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.RoleMysqlAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.UserMysqlAdapter;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.ICitaMedicaMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IConsultorioMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IEspecialidadMapper;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.ICitaMedicaRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IConsultorioRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IEspecialidadRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
@@ -52,6 +58,8 @@ public class BeanConfiguration {
     private final IConsultorioMapper consultorioMapper;
     private final IEspecialidadRepository especialidadRepository;
     private final IEspecialidadMapper especialidadMapper;
+    private final ICitaMedicaMapper citaMedicaMapper;
+    private final ICitaMedicaRepository citaMedicaRepository;
 
     @Bean
     public IRoleServicePort roleServicePort() {
@@ -76,6 +84,10 @@ public class BeanConfiguration {
         return new EspecialidadAdapter(especialidadRepository, especialidadMapper);
     }
     @Bean
+    ICitaMedicaPersistencePort citaMedicaPersistencePort() {
+        return new CitaMedicaAdapter(citaMedicaRepository, citaMedicaMapper);
+    }
+    @Bean
     public IUserServicePort userServicePort() {
         return new UserUseCase(userPersistencePort());
     }
@@ -90,6 +102,10 @@ public class BeanConfiguration {
     @Bean
     IEspecialidadServicePort especialidadServicePort() {
         return new EspecialidadUseCase(especialidadPersistencePort());
+    }
+    @Bean
+    ICitaMedicaServicePort citaMedicaServicePort() {
+        return new CitaMedicaUseCase(citaMedicaPersistencePort(), rolePersistencePort(), consultorioPersistencePort(), personPersistencePort());
     }
     @Bean
     public EmailService emailService() {

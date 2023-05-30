@@ -3,5 +3,8 @@ package co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repositor
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.CitaMedicaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface ICitaMedicaRepository extends JpaRepository<CitaMedicaEntity, Long> {
+    List<CitaMedicaEntity> findAllByPacienteId(Long id);
 }

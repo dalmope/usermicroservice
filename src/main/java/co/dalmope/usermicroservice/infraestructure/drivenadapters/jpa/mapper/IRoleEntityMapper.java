@@ -14,4 +14,6 @@ public interface IRoleEntityMapper {
     List<Role> toRoleList(List<RoleEntity> roleEntityList);
 
     RoleEntity toRoleEntity(Role role);
+
+    Role toRole(RoleEntity roleEntity);
 }
