@@ -22,6 +22,8 @@ public class MainSecurity {
     private final JwtEntryPoint jwtEntryPoint;
     private final JwtTokenFilter jwtTokenFilter;
 
+    private static final String ROLE_ADMIN = "ADMIN";
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -39,9 +41,9 @@ public class MainSecurity {
             .authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
                     .requestMatchers("/auth/login", "/auth/message", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
-                    .requestMatchers("/user/**").hasAnyRole("ADMIN", "MED", "SECRETARIO")
-                    .requestMatchers("/cita-medica/**", "/role/especialidad/user").hasAnyRole("ADMIN", "USER", "MED", "SECRETARIO")
-                    .requestMatchers( "/role/**", "/consultorio/**").hasRole("ADMIN")
+                    .requestMatchers("/cita-medica/paciente/**", "/role/especialidad/user").hasAnyRole(ROLE_ADMIN, "USER", "MED", "SECRETARIO")
+                    .requestMatchers("/user/**", "/cita-medica/**").hasAnyRole(ROLE_ADMIN, "MED", "SECRETARIO")
+                    .requestMatchers( "/role/**", "/consultorio/**").hasRole(ROLE_ADMIN)
                     .requestMatchers("/health/**").permitAll()
                      .anyRequest().authenticated()
                 )

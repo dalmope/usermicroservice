@@ -7,6 +7,6 @@ import java.util.List;
 public interface ICitaMedicaServicePort {
     void create(CitaMedica citaMedica);
     List<CitaMedica> getAll();
-    List<CitaMedica> getAllByPaciente(Long id);
+    List<CitaMedica> getAllByCodigo(String id);
     void asignarCitaMedica(CitaMedica citaMedica);
 }

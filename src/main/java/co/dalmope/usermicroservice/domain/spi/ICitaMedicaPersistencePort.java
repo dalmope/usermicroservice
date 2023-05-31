@@ -7,6 +7,6 @@ import java.util.List;
 public interface ICitaMedicaPersistencePort {
     void saveCitaMedica(CitaMedica citaMedica);
     List<CitaMedica> getAll();
-    List<CitaMedica> getAllByPaciente(Long id);
+    List<CitaMedica> getAllByPacienteId(Long id);
     CitaMedica getById(Long id);
 }

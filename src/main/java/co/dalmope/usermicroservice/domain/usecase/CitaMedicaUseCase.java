@@ -46,8 +46,9 @@ public class CitaMedicaUseCase implements ICitaMedicaServicePort {
     }
 
     @Override
-    public List<CitaMedica> getAllByPaciente(Long id) {
-        return citaMedicaRepository.getAllByPaciente(id);
+    public List<CitaMedica> getAllByCodigo(String id) {
+       Person person = personRepository.getPersonByDniNumber(id);
+        return citaMedicaRepository.getAllByPacienteId(person.getId());
     }
 
     @Override

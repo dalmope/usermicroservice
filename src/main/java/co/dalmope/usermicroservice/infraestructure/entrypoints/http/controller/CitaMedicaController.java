@@ -38,10 +38,10 @@ public class CitaMedicaController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/paciente/{id}")
-    public ResponseEntity<List<CitaMedicaReponse>> getAllCitasMedicaByPaciente(@PathVariable Long id) {
+    @GetMapping("/paciente/{codigo}")
+    public ResponseEntity<List<CitaMedicaReponse>> getAllCitasMedicaByCodigo(@PathVariable String codigo) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAllByPaciente(id)));
+                .body(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAllByCodigo(codigo)));
     }
 
     @PostMapping("/asignar")

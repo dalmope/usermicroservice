@@ -28,7 +28,7 @@ public class CitaMedicaAdapter implements ICitaMedicaPersistencePort {
     }
 
     @Override
-    public List<CitaMedica> getAllByPaciente(Long id) {
+    public List<CitaMedica> getAllByPacienteId(Long id) {
         return citaMedicaMapper.toDomainList(citaMedicaRepository.findAllByPacienteId(id));
     }
     @Override
