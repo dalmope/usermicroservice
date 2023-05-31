@@ -1,6 +1,8 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.mapper;
 
+import co.dalmope.usermicroservice.domain.model.Person;
 import co.dalmope.usermicroservice.domain.model.User;
+import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.PersonRequest;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.response.PersonResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,5 +22,6 @@ public interface IPersonResponseMapper {
     @Mapping(source = "person.idDniType", target = "idDniType")
     @Mapping(source = "person.dniNumber", target = "dniNumber")
     PersonResponse userToPersonResponse(User user);
-    List<PersonResponse> userListToPersonResponseList(List<User> userList);
+    List<PersonResponse> toPersonResponseList(List<User> userList);
+    Person toPerson(PersonRequest personRequest);
 }

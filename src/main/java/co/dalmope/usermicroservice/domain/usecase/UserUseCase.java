@@ -24,13 +24,13 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public List<User> getAllProviders(int page) {
-        return userPersistencePort.getAllProviders(page);
+    public List<User> getAllMeds() {
+        return userPersistencePort.getAllMeds();
     }
 
     @Override
-    public User getProvider(Long id) {
-        return userPersistencePort.getProvider(id);
+    public User getMed(Long id) {
+        return userPersistencePort.getMed(id);
     }
 
     @Override

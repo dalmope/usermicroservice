@@ -1,8 +1,8 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
-import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.PersonRequest;
-import co.dalmope.usermicroservice.infraestructure.entrypoints.http.mapper.IPersonRequestMapper;
 import co.dalmope.usermicroservice.domain.api.IPersonServicePort;
+import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.PersonRequest;
+import co.dalmope.usermicroservice.infraestructure.entrypoints.http.mapper.IPersonResponseMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,7 +28,7 @@ import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE
 @CrossOrigin("*")
 public class PersonRestController {
     private final IPersonServicePort personServicePort;
-    private final IPersonRequestMapper personRequestMapper;
+    private final IPersonResponseMapper personMapper;
 
     @Operation(summary = "Add a new person",
             responses = {
@@ -38,7 +38,7 @@ public class PersonRestController {
                         content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
     @PostMapping
     public ResponseEntity<Map<String, String>> savePerson(@RequestBody PersonRequest personRequest) {
-        personServicePort.savePerson(personRequestMapper.toPerson(personRequest));
+        personServicePort.savePerson(personMapper.toPerson(personRequest));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, PERSON_CREATED_MESSAGE));
     }

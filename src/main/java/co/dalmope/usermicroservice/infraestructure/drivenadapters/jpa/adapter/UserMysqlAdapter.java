@@ -1,28 +1,25 @@
 package co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter;
 
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.UserEntity;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
-import co.dalmope.usermicroservice.domain.model.User;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
 import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
+import co.dalmope.usermicroservice.domain.model.User;
+import co.dalmope.usermicroservice.domain.spi.IUserPersistencePort;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.UserEntity;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotAllowedForCreationException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserAlreadyExistsException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IUserEntityMapper;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IRoleRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IUserRepository;
-import co.dalmope.usermicroservice.domain.spi.IUserPersistencePort;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static co.dalmope.usermicroservice.application.Constants.ADMIN_ROLE_ID;
-import static co.dalmope.usermicroservice.application.Constants.MAX_PAGE_SIZE;
-import static co.dalmope.usermicroservice.application.Constants.PROVIDER_ROLE_ID;
+import static co.dalmope.usermicroservice.application.Constants.MED_ROLE_ID;
 import static co.dalmope.usermicroservice.application.Constants.USER_ROLE_ID;
 
 @RequiredArgsConstructor
@@ -61,9 +58,8 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public List<User> getAllProviders(int page) {
-        Pageable pagination = PageRequest.of(page, MAX_PAGE_SIZE);
-        List<UserEntity> userEntityList = userRepository.findAllByRoleEntityId(PROVIDER_ROLE_ID, pagination);
+    public List<User> getAllMeds() {
+        List<UserEntity> userEntityList = userRepository.findAllByRoleEntityId(MED_ROLE_ID);
         if (userEntityList.isEmpty()) {
             throw new NoDataFoundException();
         }
@@ -71,8 +67,8 @@ public class UserMysqlAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public User getProvider(Long id) {
-        UserEntity userEntity = userRepository.findByPersonEntityIdAndRoleEntityId(id, PROVIDER_ROLE_ID).orElseThrow(UserNotFoundException::new);
+    public User getMed(Long id) {
+        UserEntity userEntity = userRepository.findByPersonEntityIdAndRoleEntityId(id, MED_ROLE_ID).orElseThrow(UserNotFoundException::new);
         return userEntityMapper.toUser(userEntity);
     }
 

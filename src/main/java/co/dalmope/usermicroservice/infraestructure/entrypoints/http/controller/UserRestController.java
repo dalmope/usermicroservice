@@ -6,7 +6,6 @@ import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.response
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.mapper.IPersonResponseMapper;
 import co.dalmope.usermicroservice.domain.api.IUserServicePort;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
@@ -66,16 +64,16 @@ public class UserRestController {
         userServicePort.deleteUser(userRequestMapper.toUser(userRequest));
         return ResponseEntity.ok(Collections.singletonMap(RESPONSE_MESSAGE_KEY, USER_DELETED_MESSAGE));
     }
-    @Operation(summary = "Get all the providers",
+    @Operation(summary = "Get all Meds",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "All providers returned",
+                    @ApiResponse(responseCode = "200", description = "All Meds returned",
                             content = @Content(mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = PersonResponse.class)))),
                     @ApiResponse(responseCode = "404", description = "No data found",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @GetMapping("/provider")
-    public ResponseEntity<List<PersonResponse>> getAllProviders(@Parameter(description = "Number of the page to list providers") @RequestParam int page) {
-        return ResponseEntity.ok(personResponseMapper.userListToPersonResponseList(userServicePort.getAllProviders(page)));
+    @GetMapping("/medico")
+    public ResponseEntity<List<PersonResponse>> getAllMeds() {
+        return ResponseEntity.ok(personResponseMapper.toPersonResponseList(userServicePort.getAllMeds()));
     }
     @Operation(summary = "Get a provider user",
             responses = {
@@ -83,9 +81,9 @@ public class UserRestController {
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = PersonResponse.class))),
                     @ApiResponse(responseCode = "404", description = "User not found with provider role",
                             content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
-    @GetMapping("/provider/{id}")
+    @GetMapping("/medico/{id}")
     public ResponseEntity<PersonResponse> getProvider(@PathVariable Long id) {
-        return ResponseEntity.ok(personResponseMapper.userToPersonResponse(userServicePort.getProvider(id)));
+        return ResponseEntity.ok(personResponseMapper.userToPersonResponse(userServicePort.getMed(id)));
     }
     @Operation(summary = "Get a employee user",
             responses = {
