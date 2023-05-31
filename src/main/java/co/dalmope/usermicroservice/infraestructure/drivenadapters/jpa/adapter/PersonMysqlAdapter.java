@@ -50,7 +50,9 @@ public class PersonMysqlAdapter implements IPersonPersistencePort {
     }
 
     @Override
-    public boolean existsByDniNumber(String dniNumber) {
-        return personRepository.existsByDniNumber(dniNumber);
+    public Person getPersonByDniNumber(String dniNumber) {
+        return personRepository.findByDniNumber(dniNumber)
+                .map(personEntityMapper::toDomain)
+                .orElseThrow(PersonNotFoundException::new);
     }
 }

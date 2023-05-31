@@ -44,8 +44,9 @@ public class RoleMysqlAdapter implements IRolePersistencePort {
     }
 
     @Override
-    public boolean existsByIdAndEstado(Long id, Estado estado) {
-        return roleRepository.existsByIdAndEstado(id, estado);
+    public Role getRoleByIdAndEstado(Long id, Estado estado) {
+        return roleEntityMapper.toRole(roleRepository.findByIdAndEstado(id, estado)
+                .orElseThrow(RoleNotFoundException::new));
     }
 
     @Override

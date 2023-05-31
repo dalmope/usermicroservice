@@ -6,5 +6,5 @@ public interface IPersonPersistencePort {
     void savePerson(Person person);
     Person getPerson(Long id);
     boolean existsById(Long id);
-    boolean existsByDniNumber(String dniNumber);
+    Person getPersonByDniNumber(String dniNumber);
 }

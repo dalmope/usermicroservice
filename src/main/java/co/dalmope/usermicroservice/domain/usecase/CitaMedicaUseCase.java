@@ -6,6 +6,8 @@ import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
 import co.dalmope.usermicroservice.domain.model.CitaMedica;
 import co.dalmope.usermicroservice.domain.model.Estado;
 import co.dalmope.usermicroservice.domain.model.EstadoCita;
+import co.dalmope.usermicroservice.domain.model.Person;
+import co.dalmope.usermicroservice.domain.model.Role;
 import co.dalmope.usermicroservice.domain.spi.ICitaMedicaPersistencePort;
 import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
 import co.dalmope.usermicroservice.domain.spi.IPersonPersistencePort;
@@ -28,13 +30,13 @@ public class CitaMedicaUseCase implements ICitaMedicaServicePort {
 
     @Override
     public void create(CitaMedica citaMedica) {
-        if (!especialidadRepository.existsByIdAndEstado(citaMedica.getEspecialidad().getId(), Estado.ACTIVO) ){
-            throw new EspecialidadNotFoundException();
-        }
-        if (!personRepository.existsByDniNumber(citaMedica.getPaciente().getDniNumber())){
-            throw new PersonNotFoundException();
-        }
+        Role especialidad = especialidadRepository.getRoleByIdAndEstado(citaMedica.getEspecialidad().getId(), Estado.ACTIVO);
+        Person paciente = personRepository.getPersonByDniNumber(citaMedica.getPaciente().getDniNumber());
+
+        citaMedica.setEspecialidad(especialidad);
+        citaMedica.setPaciente(paciente);
         citaMedica.setEstado(EstadoCita.POR_ASIGNAR);
+
         citaMedicaRepository.saveCitaMedica(citaMedica);
     }
 

@@ -10,6 +10,6 @@ public interface IRolePersistencePort {
     void saveRole(Role role);
     void deleteRole(Long id);
     boolean existsById(Long id);
-    boolean existsByIdAndEstado(Long id, Estado estado);
+    Role getRoleByIdAndEstado(Long id, Estado estado);
     List<Role> getAllRolesByEstado(Estado estado);
 }

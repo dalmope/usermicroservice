@@ -5,10 +5,10 @@ import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.entity.Rol
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IRoleRepository extends JpaRepository<RoleEntity, Long> {
     RoleEntity findByName(String name);
     List<RoleEntity> findAllByEstado(Estado estado);
-    boolean existsByName(String name);
-    boolean existsByIdAndEstado(Long id, Estado estado);
+    Optional<RoleEntity> findByIdAndEstado(Long id, Estado estado);
 }
