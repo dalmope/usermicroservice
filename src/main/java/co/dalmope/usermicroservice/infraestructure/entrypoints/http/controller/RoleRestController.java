@@ -58,7 +58,7 @@ public class RoleRestController {
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ROLE_CREATED_MESSAGE));
     }
 
-    @GetMapping("/especialidad")
+    @GetMapping("/especialidad/user")
     public ResponseEntity<List<RoleResponse>> getMed() {
         return ResponseEntity.ok(roleResponseMapper.toResponseList(roleServicePort.getAllEspecialidades()));
     }
