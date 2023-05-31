@@ -32,7 +32,7 @@ public class CitaMedicaController {
         return new ResponseEntity<>(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAll()), HttpStatus.OK);
     }
 
-    @PostMapping()
+    @PostMapping("/paciente")
     public ResponseEntity<Void> saveCitaMedica(@RequestBody PedirCitaMedicaRequest citaMedica) {
         service.create(citaMedicaRequestMapper.toUser(citaMedica));
         return ResponseEntity.status(HttpStatus.CREATED).build();

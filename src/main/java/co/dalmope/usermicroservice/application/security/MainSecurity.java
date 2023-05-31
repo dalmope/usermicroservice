@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MainSecurity {
     private final JwtEntryPoint jwtEntryPoint;
     private final JwtTokenFilter jwtTokenFilter;
-
     private static final String ROLE_ADMIN = "ADMIN";
 
     @Bean
