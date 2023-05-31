@@ -1,9 +1,9 @@
 package co.dalmope.usermicroservice.domain.usecase;
 
 import co.dalmope.usermicroservice.domain.api.ICitaMedicaServicePort;
-import co.dalmope.usermicroservice.domain.exceptions.EspecialidadNotFoundException;
-import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
+import co.dalmope.usermicroservice.domain.exceptions.DateInvalidException;
 import co.dalmope.usermicroservice.domain.model.CitaMedica;
+import co.dalmope.usermicroservice.domain.model.Consultorio;
 import co.dalmope.usermicroservice.domain.model.Estado;
 import co.dalmope.usermicroservice.domain.model.EstadoCita;
 import co.dalmope.usermicroservice.domain.model.Person;
@@ -13,6 +13,7 @@ import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
 import co.dalmope.usermicroservice.domain.spi.IPersonPersistencePort;
 import co.dalmope.usermicroservice.domain.spi.IRolePersistencePort;
 
+import java.sql.Date;
 import java.util.List;
 
 public class CitaMedicaUseCase implements ICitaMedicaServicePort {
@@ -53,21 +54,21 @@ public class CitaMedicaUseCase implements ICitaMedicaServicePort {
 
     @Override
     public void asignarCitaMedica(CitaMedica citaMedica) {
-        if (!especialidadRepository.existsById(citaMedica.getEspecialidad().getId()) ){
-            throw new EspecialidadNotFoundException();
+        Date hoy = new Date(System.currentTimeMillis());
+        if (citaMedica.getFechaHora().before(hoy)) {
+            throw new DateInvalidException();
         }
-        if (!consultorioRepository.existsAndIsActive(citaMedica.getConsultorio().getId()) ){
-            throw new EspecialidadNotFoundException();
-        }
-        if (personRepository.existsById(citaMedica.getMedico().getId())){
-            throw new PersonNotFoundException();
-        }
+
+        Consultorio consultorio = consultorioRepository.getConsultorioByIdAndEstado(citaMedica.getConsultorio().getId(), Estado.ACTIVO);
+        Person medico = personRepository.getPerson(citaMedica.getMedico().getId());
         CitaMedica citaMedicaExistente = citaMedicaRepository.getById(citaMedica.getId());
+
+        citaMedicaExistente.setConsultorio(consultorio);
+        citaMedicaExistente.setMedico(medico);
         citaMedicaExistente.setEstado(EstadoCita.ASIGNADA);
-        citaMedicaExistente.setConsultorio(citaMedica.getConsultorio());
-        citaMedicaExistente.setMedico(citaMedica.getMedico());
         citaMedicaExistente.setFechaHora(citaMedica.getFechaHora());
-        citaMedicaRepository.saveCitaMedica(citaMedica);
+
+        citaMedicaRepository.saveCitaMedica(citaMedicaExistente);
     }
 
 }

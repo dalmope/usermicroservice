@@ -16,7 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import static co.dalmope.usermicroservice.application.Constants.CITA_MEDICA_ASIGNADA_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.CITA_MEDICA_CREADA_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
 @RestController
 @RequestMapping("/cita-medica")
@@ -33,9 +39,10 @@ public class CitaMedicaController {
     }
 
     @PostMapping("/paciente")
-    public ResponseEntity<Void> saveCitaMedica(@RequestBody PedirCitaMedicaRequest citaMedica) {
+    public ResponseEntity<Map<String, String>> saveCitaMedica(@RequestBody PedirCitaMedicaRequest citaMedica) {
         service.create(citaMedicaRequestMapper.toUser(citaMedica));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CITA_MEDICA_CREADA_MESSAGE));
     }
 
     @GetMapping("/paciente/{codigo}")
@@ -45,9 +52,10 @@ public class CitaMedicaController {
     }
 
     @PostMapping("/asignar")
-    public ResponseEntity<Void> asignarCitaMedica(@RequestBody AsignarCitaRequest citaMedica) {
+    public ResponseEntity<Map<String, String>> asignarCitaMedica(@RequestBody AsignarCitaRequest citaMedica) {
         service.asignarCitaMedica(citaMedicaRequestMapper.toCitaMedica(citaMedica));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CITA_MEDICA_ASIGNADA_MESSAGE));
     }
 
 }

@@ -16,10 +16,15 @@ public class Constants {
     public static final String CONSULTORIO_CREATED_MESSAGE = "Consultorio creado exitosamente";
     public static final String CONSULTORIO_UPDATE_MESSAGE = "Consultorio actualizado exitosamente";
     public static final String CONSULTORIO_DELETE_MESSAGE = "Consultorio eliminado exitosamente";
+    public static final String CONSULTORIO_NOT_FOUND_MESSAGE = "Consultorio no encontrado";
+    public static final String DATE_INVALID_MESSAGE = "La fecha debe ser mayor a la actual";
     public static final String ESPECIALIDAD_CREATED_MESSAGE = "Especialidad creada exitosamente";
     public static final String ESPECIALIDAD_UPDATE_MESSAGE = "Especialidad actualizada exitosamente";
     public static final String ESPECIALIDAD_DELETE_MESSAGE = "Especialidad eliminada exitosamente";
     public static final String ESPECIALIDAD_NOT_FOUND_MESSAGE = "Especialidad no encontrada";
+    public static final String CLINICA_MEDICA_NOT_FOUND_MESSAGE = "Clinica medica no encontrada";
+    public static final String CITA_MEDICA_ASIGNADA_MESSAGE = "Cita medica asignada exitosamente";
+    public static final String CITA_MEDICA_CREADA_MESSAGE = "Cita medica actualizada exitosamente";
     public static final String HEALTH_MESSAGE = "Microservice is up and running";
     public static final String USER_CREATED_MESSAGE = "User created successfully";
     public static final String USER_DELETED_MESSAGE = "User deleted successfully";

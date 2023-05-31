@@ -1,6 +1,9 @@
 package co.dalmope.usermicroservice.application;
 
+import co.dalmope.usermicroservice.domain.exceptions.DateInvalidException;
 import co.dalmope.usermicroservice.domain.exceptions.EspecialidadNotFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.ClinicaMedicaNotFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.ConsultorioNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.MailAlreadyExistsException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
@@ -18,6 +21,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Collections;
 import java.util.Map;
 
+import static co.dalmope.usermicroservice.application.Constants.CLINICA_MEDICA_NOT_FOUND_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_NOT_FOUND_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.DATE_INVALID_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.ESPECIALIDAD_NOT_FOUND_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.MAIL_ALREADY_EXISTS_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.NO_DATA_FOUND_MESSAGE;
@@ -32,7 +38,24 @@ import static co.dalmope.usermicroservice.application.Constants.USER_NOT_FOUND_M
 
 @ControllerAdvice
 public class ControllerAdvisor {
-
+    @ExceptionHandler(ClinicaMedicaNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handler(
+            ClinicaMedicaNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, CLINICA_MEDICA_NOT_FOUND_MESSAGE));
+    }
+    @ExceptionHandler(DateInvalidException.class)
+    public ResponseEntity<Map<String, String>> handler(
+            DateInvalidException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, DATE_INVALID_MESSAGE));
+    }
+    @ExceptionHandler(ConsultorioNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleConsultorioNotFoundException(
+            ConsultorioNotFoundException consultorioNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, CONSULTORIO_NOT_FOUND_MESSAGE));
+    }
     @ExceptionHandler(EspecialidadNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleEspecialidadNotFoundException(
             EspecialidadNotFoundException especialidadNotFoundException) {

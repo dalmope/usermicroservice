@@ -3,6 +3,7 @@ package co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter;
 import co.dalmope.usermicroservice.domain.model.Consultorio;
 import co.dalmope.usermicroservice.domain.model.Estado;
 import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.ConsultorioNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IConsultorioMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IConsultorioRepository;
@@ -46,5 +47,10 @@ public class ConsultorioAdapter implements IConsultorioPersistencePort {
     @Override
     public List<Consultorio> getAllConsultoriosActivos() {
         return consultorioMapper.toConsultorioList(consultorioRepository.findAllByEstado(Estado.ACTIVO));
+    }
+
+    @Override
+    public Consultorio getConsultorioByIdAndEstado(Long id, Estado estado) {
+        return consultorioMapper.toDomain(consultorioRepository.findByIdAndEstado(id, estado).orElseThrow(ConsultorioNotFoundException::new));
     }
 }

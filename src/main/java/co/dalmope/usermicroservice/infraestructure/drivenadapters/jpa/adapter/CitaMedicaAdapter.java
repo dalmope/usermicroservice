@@ -2,7 +2,7 @@ package co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter;
 
 import co.dalmope.usermicroservice.domain.model.CitaMedica;
 import co.dalmope.usermicroservice.domain.spi.ICitaMedicaPersistencePort;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.NoDataFoundException;
+import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.ClinicaMedicaNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.ICitaMedicaMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.ICitaMedicaRepository;
 
@@ -33,6 +33,6 @@ public class CitaMedicaAdapter implements ICitaMedicaPersistencePort {
     }
     @Override
     public CitaMedica getById(Long id) {
-        return citaMedicaMapper.toDomain(citaMedicaRepository.findById(id).orElseThrow(NoDataFoundException::new));
+        return citaMedicaMapper.toDomain(citaMedicaRepository.findById(id).orElseThrow(ClinicaMedicaNotFoundException::new));
     }
 }
