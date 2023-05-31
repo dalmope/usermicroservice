@@ -39,10 +39,11 @@ public class MainSecurity {
             .authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
                     .requestMatchers("/auth/login", "/auth/message", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
-                    .requestMatchers("/user/**", "/role/**", "/consultorio/**").hasRole("ADMIN")
+                    .requestMatchers( "/role/**", "/consultorio/**").hasRole("ADMIN")
+                    .requestMatchers("/user/**").hasAnyRole("ADMIN", "MED", "SECRETARIO")
+                    .requestMatchers("/cita-medica/**").hasAnyRole("ADMIN", "USER", "MED", "SECRETARIO")
                     .requestMatchers("/health/**").permitAll()
-                    .requestMatchers("/cita-medica/**").permitAll()
-                    .anyRequest().authenticated()
+                     .anyRequest().authenticated()
                 )
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
