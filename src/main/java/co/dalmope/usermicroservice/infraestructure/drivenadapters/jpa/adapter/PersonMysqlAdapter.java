@@ -48,4 +48,9 @@ public class PersonMysqlAdapter implements IPersonPersistencePort {
     public boolean existsById(Long id) {
         return !personRepository.existsById(id);
     }
+
+    @Override
+    public boolean existsByDniNumber(String dniNumber) {
+        return personRepository.existsByDniNumber(dniNumber);
+    }
 }

@@ -6,9 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class PedirCitaMedicaRequest {
-
     private Long idEspecialidad;
-    private Long idPaciente;
+    private String codigo;
     private String motivo;
-
 }

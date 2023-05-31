@@ -1,9 +1,9 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
 import co.dalmope.usermicroservice.domain.api.ICitaMedicaServicePort;
-import co.dalmope.usermicroservice.domain.model.CitaMedica;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.AsignarCitaRequest;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.PedirCitaMedicaRequest;
+import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.response.CitaMedicaReponse;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.mapper.CitaMedicaRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,8 +28,8 @@ public class CitaMedicaController {
     private final CitaMedicaRequestMapper citaMedicaRequestMapper;
 
     @GetMapping()
-    public ResponseEntity<List<CitaMedica>> getAllCitasMedica() {
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<CitaMedicaReponse>> getAllCitasMedica() {
+        return new ResponseEntity<>(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAll()), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -39,8 +39,9 @@ public class CitaMedicaController {
     }
 
     @GetMapping("/paciente/{id}")
-    public ResponseEntity<List<CitaMedica>> getAllCitasMedicaByPaciente(@PathVariable Long id) {
-        return new ResponseEntity<>(service.getAllByPaciente(id), HttpStatus.OK);
+    public ResponseEntity<List<CitaMedicaReponse>> getAllCitasMedicaByPaciente(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAllByPaciente(id)));
     }
 
     @PostMapping("/asignar")
