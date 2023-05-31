@@ -31,7 +31,7 @@ public class CitaMedicaUseCase implements ICitaMedicaServicePort {
         if (!especialidadRepository.existsByIdAndEstado(citaMedica.getEspecialidad().getId(), Estado.ACTIVO) ){
             throw new EspecialidadNotFoundException();
         }
-        if (personRepository.existsByDniNumber(citaMedica.getPaciente().getDniNumber())){
+        if (!personRepository.existsByDniNumber(citaMedica.getPaciente().getDniNumber())){
             throw new PersonNotFoundException();
         }
         citaMedica.setEstado(EstadoCita.POR_ASIGNAR);
