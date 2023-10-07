@@ -22,7 +22,6 @@ import java.util.Map;
 import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_CREATED_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_DELETE_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.CONSULTORIO_UPDATE_MESSAGE;
-import static co.dalmope.usermicroservice.application.Constants.HEALTH_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
 @RestController
