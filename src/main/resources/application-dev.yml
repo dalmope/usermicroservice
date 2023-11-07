@@ -1,6 +1,5 @@
 server:
   port: ${PORT:8090}
-  address: 0.0.0.0
 
 spring:
   datasource:
@@ -9,7 +8,7 @@ spring:
     password: ${DATABASE_PASSWORD:}
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   mail:
     username: ${MAIL_USERNAME:}
     password: ${MAIL_PASSWORD:}
@@ -25,7 +24,7 @@ spring:
 
 jwt:
   secret: ${KEYSECRET_SECURITY}
-  expiration: ${EXPIRE_DAYS_SECURITY:3600000}
+  expiration: ${EXPIRE_DAYS_SECURITY}
 
 management:
   endpoints:
