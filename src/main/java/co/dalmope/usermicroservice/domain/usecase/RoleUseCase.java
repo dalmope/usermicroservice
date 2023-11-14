@@ -23,14 +23,13 @@ public class RoleUseCase implements IRoleServicePort {
     }
 
     @Override
-    public List<Role> getAllEspecialidades() {
+    public List<Role> getActiveEspecialidades() {
         List<Role> roles = rolePersistencePort.getAllRolesByEstado(Estado.ACTIVO);
         roles.removeIf(role -> role.getId() <= 10);
         return roles;
     }
-
     @Override
-    public List<Role> getActiveEspecialidades() {
+    public List<Role> getAllEspecialidades() {
         List<Role> roles = rolePersistencePort.getAllRoles();
         roles.removeIf(role -> role.getId() <= 10);
         return roles;
