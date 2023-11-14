@@ -60,6 +60,11 @@ public class RoleRestController {
 
     @GetMapping("/especialidad/user")
     public ResponseEntity<List<RoleResponse>> getMed() {
+        return ResponseEntity.ok(roleResponseMapper.toResponseList(roleServicePort.getActiveEspecialidades()));
+    }
+
+    @GetMapping("/especialidad/all")
+    public ResponseEntity<List<RoleResponse>> getAllMeds() {
         return ResponseEntity.ok(roleResponseMapper.toResponseList(roleServicePort.getAllEspecialidades()));
     }
 

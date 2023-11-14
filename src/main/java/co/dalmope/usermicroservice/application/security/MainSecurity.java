@@ -41,7 +41,7 @@ public class MainSecurity {
                 authorizeHttpRequests
                     .requestMatchers("/auth/login", "/auth/message", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
                     .requestMatchers("/cita-medica/paciente/**", "/role/especialidad/user").hasAnyRole(ROLE_ADMIN, "USER", "MED", "SECRETARIO")
-                    .requestMatchers("/user/**", "/cita-medica/**").hasAnyRole(ROLE_ADMIN, "MED", "SECRETARIO")
+                    .requestMatchers("/user/**", "/cita-medica/**", "/especialidad/all").hasAnyRole(ROLE_ADMIN, "MED", "SECRETARIO")
                     .requestMatchers( "/role/**", "/consultorio/**").hasRole(ROLE_ADMIN)
                     .requestMatchers("/health/**").permitAll()
                      .anyRequest().authenticated()
