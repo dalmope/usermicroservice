@@ -1,9 +1,11 @@
-FROM amazoncorretto:17-alpine-jdk AS build
-RUN apk add --no-cache gradle
-COPY . /app
+FROM gradle:8.4.0-jdk17 AS build
+COPY --chown=gradle:gradle . /app
 WORKDIR /app
 RUN gradle build
+RUN ls -la /app/target/libs
 
-FROM amazoncorretto:17-alpine-jdk
-COPY --from=build /app/target/libs/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM eclipse-temurin:17
+COPY --from=build /app/target/libs/usermicroservice-1.0.jar /app/app.jar
+WORKDIR /app
+RUN ls /app
+ENTRYPOINT ["java", "-jar", "app.jar"]
