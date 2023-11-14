@@ -12,9 +12,11 @@ import co.dalmope.usermicroservice.domain.exceptions.PersonNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.RoleNotAllowedForCreationException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserAlreadyExistsException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.UserNotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -116,5 +118,15 @@ public class ControllerAdvisor {
             Exception ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, UNAUTHORIZED_MESSAGE));
+    }
+
+    @ExceptionHandler({ MethodArgumentNotValidException.class })
+    public ResponseEntity<Map<String, Object>> handleUnexpectedTypeException(
+            MethodArgumentNotValidException ex) {
+        Object errorMsg = ex.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Collections.singletonMap(RESPONSE_ERROR_MESSAGE_KEY, errorMsg));
     }
 }

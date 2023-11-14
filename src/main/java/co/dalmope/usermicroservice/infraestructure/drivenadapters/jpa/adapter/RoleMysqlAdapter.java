@@ -27,6 +27,7 @@ public class RoleMysqlAdapter implements IRolePersistencePort {
 
     @Override
     public void saveRole(Role role) {
+        role.setEstado(Estado.ACTIVO);
         roleRepository.save(roleEntityMapper.toRoleEntity(role));
     }
 

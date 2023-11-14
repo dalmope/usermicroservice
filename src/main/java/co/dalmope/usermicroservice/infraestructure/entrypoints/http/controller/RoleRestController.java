@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +53,7 @@ public class RoleRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> createRole(@RequestBody RoleResponse roleResponse) {
+    public ResponseEntity<Map<String, String>> createRole(@RequestBody @Valid RoleResponse roleResponse) {
         roleServicePort.create(roleResponseMapper.toDomain(roleResponse));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, ROLE_CREATED_MESSAGE));
