@@ -53,6 +53,11 @@ public class CitaMedicaUseCase implements ICitaMedicaServicePort {
     }
 
     @Override
+    public List<CitaMedica> getAllByEstado(EstadoCita estado) {
+        return citaMedicaRepository.getAllByEstado(estado);
+    }
+
+    @Override
     public void asignarCitaMedica(CitaMedica citaMedica) {
         Date hoy = new Date(System.currentTimeMillis());
         if (citaMedica.getFechaHora().before(hoy)) {
@@ -69,6 +74,13 @@ public class CitaMedicaUseCase implements ICitaMedicaServicePort {
         citaMedicaExistente.setFechaHora(citaMedica.getFechaHora());
 
         citaMedicaRepository.saveCitaMedica(citaMedicaExistente);
+    }
+
+    @Override
+    public void delete(Long id) {
+        CitaMedica citaMedica = citaMedicaRepository.getById(id);
+        citaMedica.setEstado(EstadoCita.CANCELADA);
+        citaMedicaRepository.saveCitaMedica(citaMedica);
     }
 
 }

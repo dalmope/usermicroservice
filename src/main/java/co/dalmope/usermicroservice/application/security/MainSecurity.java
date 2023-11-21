@@ -21,7 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MainSecurity {
     private final JwtEntryPoint jwtEntryPoint;
     private final JwtTokenFilter jwtTokenFilter;
-    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ADMIN = "ADMIN";
+    private static final String SEC = "SECRETARIO";
+    private static final String MED = "MED";
+    private static final String USER = "SECRETARIO";
+
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,9 +46,10 @@ public class MainSecurity {
             .authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
                     .requestMatchers("/auth/login", "/auth/message", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
-                    .requestMatchers("/cita-medica/paciente/**", "/role/especialidad/user").hasAnyRole(ROLE_ADMIN, "USER", "MED", "SECRETARIO")
-                    .requestMatchers("/user/**", "/cita-medica/**", "/especialidad/all").hasAnyRole(ROLE_ADMIN, "MED", "SECRETARIO")
-                    .requestMatchers( "/role/**", "/consultorio/**").hasRole(ROLE_ADMIN)
+                    .requestMatchers("/cita-medica/paciente/**", "/role/especialidad/user").hasAnyRole(ADMIN, USER, MED, SEC)
+                    .requestMatchers("/cita-medica/**").hasAnyRole(ADMIN, MED, SEC)
+                    .requestMatchers("/user/**", "/cita-medica/**", "/especialidad/all").hasAnyRole(ADMIN, MED, SEC)
+                    .requestMatchers( "/role/**", "/consultorio/**").hasRole(ADMIN)
                     .requestMatchers("/health/**").permitAll()
                      .anyRequest().authenticated()
                 )

@@ -28,7 +28,6 @@ public class HealthController {
     @GetMapping()
     public ResponseEntity<Map<String,String>> health() {
         logger.info("Health check");
-        personServicePort.getPerson(1L);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, HEALTH_MESSAGE));
     }

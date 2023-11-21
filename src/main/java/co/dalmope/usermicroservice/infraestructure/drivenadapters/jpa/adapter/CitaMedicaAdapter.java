@@ -1,6 +1,7 @@
 package co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter;
 
 import co.dalmope.usermicroservice.domain.model.CitaMedica;
+import co.dalmope.usermicroservice.domain.model.EstadoCita;
 import co.dalmope.usermicroservice.domain.spi.ICitaMedicaPersistencePort;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.exception.ClinicaMedicaNotFoundException;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.ICitaMedicaMapper;
@@ -25,6 +26,11 @@ public class CitaMedicaAdapter implements ICitaMedicaPersistencePort {
     @Override
     public List<CitaMedica> getAll() {
         return citaMedicaMapper.toDomainList(citaMedicaRepository.findAll());
+    }
+
+    @Override
+    public List<CitaMedica> getAllByEstado(EstadoCita estado) {
+        return citaMedicaMapper.toDomainList(citaMedicaRepository.findAllByEstado(estado));
     }
 
     @Override

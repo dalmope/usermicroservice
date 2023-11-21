@@ -1,6 +1,7 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
 import co.dalmope.usermicroservice.domain.api.ICitaMedicaServicePort;
+import co.dalmope.usermicroservice.domain.model.EstadoCita;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.AsignarCitaRequest;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.PedirCitaMedicaRequest;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.response.CitaMedicaReponse;
@@ -8,21 +9,13 @@ import co.dalmope.usermicroservice.infraestructure.entrypoints.http.mapper.CitaM
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static co.dalmope.usermicroservice.application.Constants.CITA_MEDICA_ASIGNADA_MESSAGE;
-import static co.dalmope.usermicroservice.application.Constants.CITA_MEDICA_CREADA_MESSAGE;
-import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
+import static co.dalmope.usermicroservice.application.Constants.*;
 
 @RestController
 @RequestMapping("/cita-medica")
@@ -36,6 +29,11 @@ public class CitaMedicaController {
     @GetMapping()
     public ResponseEntity<List<CitaMedicaReponse>> getAllCitasMedica() {
         return new ResponseEntity<>(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAll()), HttpStatus.OK);
+    }
+
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<CitaMedicaReponse>> getCitasByEstado(@PathVariable EstadoCita estado) {
+        return new ResponseEntity<>(citaMedicaRequestMapper.toCitaMedicaResponseList(service.getAllByEstado(estado)), HttpStatus.OK);
     }
 
     @PostMapping("/paciente")
@@ -56,6 +54,13 @@ public class CitaMedicaController {
         service.asignarCitaMedica(citaMedicaRequestMapper.toCitaMedica(citaMedica));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CITA_MEDICA_ASIGNADA_MESSAGE));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> deleteCitaMedica(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Collections.singletonMap(RESPONSE_MESSAGE_KEY, CITA_MEDICA_DELETE_MESSAGE));
     }
 
 }
