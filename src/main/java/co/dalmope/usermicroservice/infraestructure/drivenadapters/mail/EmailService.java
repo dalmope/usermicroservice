@@ -5,6 +5,7 @@ import co.dalmope.usermicroservice.domain.spi.ISendEmailPort;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
+@Slf4j
 
 @RequiredArgsConstructor
 public class EmailService implements ISendEmailPort {
@@ -39,6 +41,7 @@ public class EmailService implements ISendEmailPort {
             helper.setText(htmlContent, true);
             javaMailSender.send(message);
         } catch (MessagingException | IOException e) {
+            log.error(String.valueOf(e));
             throw new EmailNotSendException();
         }
     }
