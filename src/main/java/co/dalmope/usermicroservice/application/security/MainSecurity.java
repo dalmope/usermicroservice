@@ -26,9 +26,6 @@ public class MainSecurity {
     private static final String MED = "MED";
     private static final String USER = "SECRETARIO";
 
-
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,7 +42,7 @@ public class MainSecurity {
         http.cors().and().csrf().disable()
             .authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests
-                    .requestMatchers("/auth/login", "/auth/message", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
+                    .requestMatchers("/auth/login", "/auth/recovery", "/auth/change-password", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/person/").permitAll()
                     .requestMatchers("/cita-medica/paciente/**", "/role/especialidad/user").hasAnyRole(ADMIN, USER, MED, SEC)
                     .requestMatchers("/cita-medica/**").hasAnyRole(ADMIN, MED, SEC)
                     .requestMatchers("/user/**", "/cita-medica/**", "/especialidad/all").hasAnyRole(ADMIN, MED, SEC)

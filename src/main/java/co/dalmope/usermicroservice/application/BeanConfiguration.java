@@ -1,14 +1,9 @@
 package co.dalmope.usermicroservice.application;
 
-import co.dalmope.usermicroservice.domain.api.ICitaMedicaServicePort;
-import co.dalmope.usermicroservice.domain.api.IConsultorioServicePort;
-import co.dalmope.usermicroservice.domain.api.IEspecialidadServicePort;
-import co.dalmope.usermicroservice.domain.spi.ICitaMedicaPersistencePort;
-import co.dalmope.usermicroservice.domain.spi.IConsultorioPersistencePort;
-import co.dalmope.usermicroservice.domain.spi.IEspecialidadPersistencePort;
-import co.dalmope.usermicroservice.domain.usecase.CitaMedicaUseCase;
-import co.dalmope.usermicroservice.domain.usecase.ConsultorioUseCase;
-import co.dalmope.usermicroservice.domain.usecase.EspecialidadUseCase;
+import co.dalmope.usermicroservice.application.security.jwt.JwtProvider;
+import co.dalmope.usermicroservice.domain.api.*;
+import co.dalmope.usermicroservice.domain.spi.*;
+import co.dalmope.usermicroservice.domain.usecase.*;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.CitaMedicaAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.ConsultorioAdapter;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.adapter.EspecialidadAdapter;
@@ -23,19 +18,10 @@ import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IEspecialidadRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IPersonRepository;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IUserRepository;
-import co.dalmope.usermicroservice.domain.api.IPersonServicePort;
-import co.dalmope.usermicroservice.domain.api.IRoleServicePort;
-import co.dalmope.usermicroservice.domain.api.IUserServicePort;
-import co.dalmope.usermicroservice.domain.spi.IPersonPersistencePort;
-import co.dalmope.usermicroservice.domain.spi.IRolePersistencePort;
-import co.dalmope.usermicroservice.domain.spi.IUserPersistencePort;
-import co.dalmope.usermicroservice.domain.usecase.RoleUseCase;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IPersonEntityMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IRoleEntityMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.mapper.IUserEntityMapper;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.jpa.repository.IRoleRepository;
-import co.dalmope.usermicroservice.domain.usecase.PersonUseCase;
-import co.dalmope.usermicroservice.domain.usecase.UserUseCase;
 import co.dalmope.usermicroservice.infraestructure.drivenadapters.mail.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -60,6 +46,7 @@ public class BeanConfiguration {
     private final IEspecialidadMapper especialidadMapper;
     private final ICitaMedicaMapper citaMedicaMapper;
     private final ICitaMedicaRepository citaMedicaRepository;
+    private final JwtProvider jwtProvider;
 
     @Bean
     public IRoleServicePort roleServicePort() {
@@ -71,7 +58,7 @@ public class BeanConfiguration {
     }
     @Bean
     public IPersonServicePort personServicePort() {
-        return new PersonUseCase(personPersistencePort());
+        return new PersonUseCase(personPersistencePort(), passwordEncoder, jwtProvider);
     }
     @Bean
     public IPersonPersistencePort personPersistencePort() {
@@ -106,6 +93,15 @@ public class BeanConfiguration {
     @Bean
     ICitaMedicaServicePort citaMedicaServicePort() {
         return new CitaMedicaUseCase(citaMedicaPersistencePort(), rolePersistencePort(), consultorioPersistencePort(), personPersistencePort());
+    }
+
+    @Bean
+    ISendEmailPort sendEmailPort() {
+        return new EmailService(javaMailSender);
+    }
+    @Bean
+    IEmailServicePort emailServicePort() {
+        return new EmailUseCase(sendEmailPort(), personPersistencePort(), jwtProvider);
     }
     @Bean
     public EmailService emailService() {

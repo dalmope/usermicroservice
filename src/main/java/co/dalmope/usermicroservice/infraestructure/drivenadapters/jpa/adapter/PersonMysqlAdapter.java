@@ -40,6 +40,15 @@ public class PersonMysqlAdapter implements IPersonPersistencePort {
     }
 
     @Override
+    public void updatePerson(Person person) {
+        if (!personRepository.existsById(person.getId())) {
+            throw new PersonNotFoundException();
+        }
+        personRepository.save(personEntityMapper.toEntity(person));
+    }
+
+
+    @Override
     public Person getPerson(Long id) {
         return personEntityMapper.toDomain(personRepository.findById(id).orElseThrow(PersonNotFoundException::new));
     }
@@ -52,6 +61,13 @@ public class PersonMysqlAdapter implements IPersonPersistencePort {
     @Override
     public Person getPersonByDniNumber(String dniNumber) {
         return personRepository.findByDniNumber(dniNumber)
+                .map(personEntityMapper::toDomain)
+                .orElseThrow(PersonNotFoundException::new);
+    }
+
+    @Override
+    public Person getPersonByTokenPassword(String tokenPassword) {
+        return personRepository.findByTokenPassword(tokenPassword)
                 .map(personEntityMapper::toDomain)
                 .orElseThrow(PersonNotFoundException::new);
     }

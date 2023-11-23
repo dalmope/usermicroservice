@@ -1,8 +1,11 @@
 package co.dalmope.usermicroservice.infraestructure.entrypoints.http.controller;
 
 import co.dalmope.usermicroservice.application.security.jwt.JwtProvider;
-import co.dalmope.usermicroservice.infraestructure.drivenadapters.mail.EmailService;
+import co.dalmope.usermicroservice.domain.api.IEmailServicePort;
+import co.dalmope.usermicroservice.domain.api.IPersonServicePort;
+import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.ChangePasswordRequest;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.LoginUsuario;
+import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.request.RecoveryPasswordRequest;
 import co.dalmope.usermicroservice.infraestructure.entrypoints.http.dto.response.JwtDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,9 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Map;
 
+import static co.dalmope.usermicroservice.application.Constants.PASSWORD_CHANGED_MESSAGE;
+import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -31,7 +37,8 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
-    private final EmailService emailService;
+    private final IEmailServicePort emailService;
+    private final IPersonServicePort personServicePort;
 
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
@@ -48,18 +55,24 @@ public class AuthController {
         return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/message")
-    public ResponseEntity<String> message(@RequestBody Map<String, String> request) {
-        String correo = request.get("correo");
-        emailService.sendEmail(correo, "Registro Exitoso", "Hola mundo");
-        return new ResponseEntity<>("Hola mundo", HttpStatus.OK);
-    }
-
     @PostMapping("/refresh")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<JwtDto> refresh(@RequestBody JwtDto jwtDto) throws ParseException {
         String token = jwtProvider.refreshToken(jwtDto);
         JwtDto jwt = new JwtDto(token);
         return new ResponseEntity<>(jwt, HttpStatus.OK);
+    }
+
+    @PostMapping("/recovery")
+    public ResponseEntity<String> recovery(@RequestBody RecoveryPasswordRequest request) {
+        emailService.sendEmailRecoveryPassword(request);
+        return new ResponseEntity<>("Hola mundo", HttpStatus.OK);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(@RequestBody ChangePasswordRequest request) {
+        personServicePort.changePassword(request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of(RESPONSE_MESSAGE_KEY, PASSWORD_CHANGED_MESSAGE));
     }
 }

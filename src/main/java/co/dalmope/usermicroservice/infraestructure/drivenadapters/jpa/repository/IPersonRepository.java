@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface IPersonRepository extends JpaRepository<PersonEntity, Long> {
     Optional<PersonEntity> findByDniNumber(String dniNumber);
+    Optional<PersonEntity> findByTokenPassword(String tokenPassword);
     boolean existsByDniNumber(String dniNumber);
     boolean existsByMail(String mail);
 }

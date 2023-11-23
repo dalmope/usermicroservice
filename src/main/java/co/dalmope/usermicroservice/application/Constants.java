@@ -26,6 +26,7 @@ public class Constants {
     public static final String CITA_MEDICA_ASIGNADA_MESSAGE = "Cita medica asignada exitosamente";
     public static final String CITA_MEDICA_CREADA_MESSAGE = "Cita medica actualizada exitosamente";
     public static final String CITA_MEDICA_DELETE_MESSAGE = "Cita medica eliminada exitosamente";
+    public static final String PASSWORD_CHANGED_MESSAGE = "Password changed successfully";
     public static final String HEALTH_MESSAGE = "Microservice is up and running";
     public static final String USER_CREATED_MESSAGE = "User created successfully";
     public static final String USER_DELETED_MESSAGE = "User deleted successfully";

@@ -27,9 +27,10 @@ import java.util.List;
 public class JwtProvider {
     @Value("${jwt.secret}")
     private String secret;
-
     @Value("${jwt.expiration}")
     private int expiration;
+    @Value("${jwt.expiration-email-token}")
+    private int expirationEmailToken;
 
     private static final String ROLES_NAME = "roles";
 
@@ -40,7 +41,17 @@ public class JwtProvider {
                 .setSubject(usuarioPrincipal.getUsername())
                 .claim(ROLES_NAME, roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + expiration * 180))
+                .setExpiration(new Date(new Date().getTime() + expiration * 180L))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .compact();
+    }
+
+    public String generateToken(String nombreUsuario) {
+        return Jwts.builder()
+                .setSubject(nombreUsuario)
+                .claim(ROLES_NAME, List.of("ROLE_USER"))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + expirationEmailToken * 180L))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
@@ -63,6 +74,9 @@ public class JwtProvider {
             log.error("token vacío");
         } catch (SignatureException e) {
             log.error("fail en la firma");
+        } catch (Exception e) {
+            log.error(String.valueOf(e));
+            log.error("error desconocido");
         }
         return false;
     }

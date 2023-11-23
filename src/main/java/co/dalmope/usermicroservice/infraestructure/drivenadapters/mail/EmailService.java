@@ -1,5 +1,7 @@
 package co.dalmope.usermicroservice.infraestructure.drivenadapters.mail;
 
+import co.dalmope.usermicroservice.domain.exceptions.EmailNotSendException;
+import co.dalmope.usermicroservice.domain.spi.ISendEmailPort;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -11,32 +13,33 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailService implements ISendEmailPort {
 
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String from;
 
-    public void sendEmail(String to, String subject, String content) {
+    public void sendEmail(String to, String subject, String template, Map<String, String> values) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
-            String htmlContent = new String(Files.readAllBytes(Paths.get("src/main/resources/templates/Bienvenido.html")));
-            htmlContent = htmlContent.replace("[[name]]", "David");
+            String htmlContent = new String(Files.readAllBytes(Paths.get("src/main/resources/templates/" + template + ".html")));
+            for (Map.Entry<String, String> entry : values.entrySet()) {
+                htmlContent = htmlContent.replace("[[" + entry.getKey() + "]]", entry.getValue());
+            }
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(to);
             helper.setFrom(from);
             helper.setSubject(subject);
             helper.setText(htmlContent, true);
             javaMailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (MessagingException | IOException e) {
+            throw new EmailNotSendException();
         }
     }
 }

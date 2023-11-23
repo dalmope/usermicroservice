@@ -26,10 +26,13 @@ spring:
 jwt:
   secret: ${KEYSECRET_SECURITY}
   expiration: ${EXPIRE_DAYS_SECURITY}
+  expiration-email-token: ${EXPIRE_EMAIL_TOKEN:10000}
+
+mail:
+  url-frontend: ${URL_FRONTEND:http://localhost:4200}
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-        
