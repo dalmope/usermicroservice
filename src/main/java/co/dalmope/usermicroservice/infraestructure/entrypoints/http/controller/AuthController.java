@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Map;
 
+import static co.dalmope.usermicroservice.application.Constants.EMAIL_RECOVERY_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.PASSWORD_CHANGED_MESSAGE;
 import static co.dalmope.usermicroservice.application.Constants.RESPONSE_MESSAGE_KEY;
 
@@ -64,9 +65,10 @@ public class AuthController {
     }
 
     @PostMapping("/recovery")
-    public ResponseEntity<String> recovery(@RequestBody RecoveryPasswordRequest request) {
+    public ResponseEntity<Map<String, String>> recovery(@RequestBody RecoveryPasswordRequest request) {
         emailService.sendEmailRecoveryPassword(request);
-        return new ResponseEntity<>("Hola mundo", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Map.of(RESPONSE_MESSAGE_KEY, EMAIL_RECOVERY_MESSAGE));
     }
 
     @PostMapping("/change-password")
